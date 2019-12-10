@@ -116,7 +116,7 @@ In the following steps we are going to use the Intellij IDEA for developing the 
 * Select `Maven` from the left and click `Next`.
 * Enter the `GroupId`, `ArtifactId` and `Version`, e.g.
 
-	`GroupId`: de.rwthaachen.openlap.visualizers.googlecharts
+	`GroupId`: com.openlap.visualizers.googlecharts
 	
 	`ArtifactId`: GoogleCharts
 	
@@ -155,11 +155,11 @@ Maven:
 In the project create a class that extends the `VisualizationCodeGenerator` abstract class as shown in the example below. The class should be contained in a package within the `src` folder to avoid naming conflicts.
 
 ```java
-package de.rwthaachen.openlap.visualizers.googlecharts;
+package com.openlap.visualizers.googlecharts;
 
-import de.rwthaachen.openlap.visualizer.framework.VisualizationCodeGenerator;
-import de.rwthaachen.openlap.visualizer.framework.exceptions.VisualizationCodeGenerationException;
-import de.rwthaachen.openlap.visualizer.framework.model.TransformedData;
+import com.openlap.visualizer.framework.VisualizationCodeGenerator;
+import com.openlap.visualizer.framework.exceptions.VisualizationCodeGenerationException;
+import com.openlap.visualizer.framework.model.TransformedData;
 
 import java.util.Map;
 
@@ -202,12 +202,12 @@ protected void initializeDataSetConfiguration() {
 In the project create a class that implements the `DataTransformer` interface class as shown in the example below. The class should be contained in a package within the `src` folder to avoid naming conflicts.
 
 ```java
-package de.rwthaachen.openlap.visualizers.googlecharts;
+package com.openlap.visualizers.googlecharts;
 
-import de.rwthaachen.openlap.dataset.OpenLAPDataSet;
-import de.rwthaachen.openlap.visualizer.framework.DataTransformer;
-import de.rwthaachen.openlap.visualizer.framework.exceptions.UnTransformableData;
-import de.rwthaachen.openlap.visualizer.framework.model.TransformedData;
+import com.openlap.dataset.OpenLAPDataSet;
+import com.openlap.visualizer.framework.DataTransformer;
+import com.openlap.visualizer.framework.exceptions.UnTransformableData;
+import com.openlap.visualizer.framework.model.TransformedData;
 
 public class DataTransformerPairList implements DataTransformer {
     public TransformedData<?> transformData(OpenLAPDataSet openLAPDataSet) throws UnTransformableData {
@@ -320,9 +320,9 @@ The newly implemented visualization technique is now ready to be uploaded to the
 * Visualization framework description (E.g. Visualizations using the Google Charts library).
 * List of associated visualization methods and data transformers.
 ** Visualization method name (E.g. Bar Chart).
-** Implementing class name including package that extends the `VisualizationCodeGenerator` abstract class (E.g. de.rwthaachen.openlap.visualizers.googlecharts.BarChart).
+** Implementing class name including package that extends the `VisualizationCodeGenerator` abstract class (E.g. com.openlap.visualizers.googlecharts.BarChart).
 ** Data transformer name (E.g. Pairs List Data Transformer).
-** Implementing class name including package that implements the `DataTransformer` interface class (E.g. de.rwthaachen.openlap.visualizers.googlecharts.DataTransformerPairList).
+** Implementing class name including package that implements the `DataTransformer` interface class (E.g. com.openlap.visualizers.googlecharts.DataTransformerPairList).
 
 <strong>Note:</strong> The same implemented `DataTransformer` can be used with the multiple Visualization methods. All you need to do is provide the new implementation of the ‘VisualizationCodeGenerator’ abstract class (E.g. Pie Chart) and pack it with the JAR Bundle. While uploading the jar file, provide two visualization methods with the same data transformer name and the Implementing class name as shown in an example below.
 ```                
@@ -335,18 +335,18 @@ The newly implemented visualization technique is now ready to be uploaded to the
       "visualizationMethods": [
         {
           "name": "Pie Chart",
-          "implementingClass": "de.rwthaachen.openlap.visualizers.googlecharts.PieChart",
+          "implementingClass": "com.openlap.visualizers.googlecharts.PieChart",
           "dataTransformerMethod": {
             "name": "Pairs List Data Transformer",
-            "implementingClass": "de.rwthaachen.openlap.visualizers.googlecharts.DataTransformerPairList"
+            "implementingClass": "com.openlap.visualizers.googlecharts.DataTransformerPairList"
           }
         },
         {
           "name": "Bar Chart",
-          "implementingClass": "de.rwthaachen.openlap.visualizers.googlecharts.BarChart",
+          "implementingClass": "com.openlap.visualizers.googlecharts.BarChart",
           "dataTransformerMethod": {
             "name": "Pairs List Data Transformer",
-            "implementingClass": "de.rwthaachen.openlap.visualizers.googlecharts.DataTransformerPairList"
+            "implementingClass": "com.openlap.visualizers.googlecharts.DataTransformerPairList"
           }
         }
       ]
