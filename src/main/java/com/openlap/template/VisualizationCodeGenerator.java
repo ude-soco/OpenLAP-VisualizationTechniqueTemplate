@@ -25,13 +25,16 @@ public abstract class VisualizationCodeGenerator {
     private OpenLAPDataSet input;
     private OpenLAPDataSet output;
 
+    protected abstract String getName();
+
     protected abstract void initializeDataSetConfiguration();
 
-    protected abstract String visualizationCode(DataTransformer dataTransformer, Map<String, Object> additionalParams) throws VisualizationCodeGenerationException;
+    protected abstract Class getDataTransformer();
 
     protected abstract String visualizationLibraryScript();
 
-    protected abstract Class getDataTransformer();
+    protected abstract String visualizationCode(DataTransformer dataTransformer, Map<String, Object> additionalParams) throws VisualizationCodeGenerationException;
+
 
     public boolean isDataProcessable(OpenLAPPortConfig openlapPortConfig) throws DataSetValidationException {
         if (input == null)
@@ -48,9 +51,9 @@ public abstract class VisualizationCodeGenerator {
         if (input == null)
             initializeDataSetConfiguration();
         // is the configuration valid?
-        if(isDataProcessable(portConfig)) {
+        if (isDataProcessable(portConfig)) {
             // for each configuration element of the configuration
-            for (OpenLAPPortMapping mappingEntry:portConfig.getMapping()) {
+            for (OpenLAPPortMapping mappingEntry : portConfig.getMapping()) {
                 // map the data of the column c.id==element.id to the input
                 input.getColumns().get(mappingEntry.getInputPort().getId()).setData(openLAPDataSet.getColumns().get(mappingEntry.getOutputPort().getId()).getData());
             }
@@ -62,12 +65,12 @@ public abstract class VisualizationCodeGenerator {
                 throw new UnTransformableData("Data could not be transformed.");
             else
                 return visualizationCode(dataTransformer, additionalParams);
-        }else{
+        } else {
             return "Data could not be transformed.";
         }
     }
 
-    public String getVisualizationLibraryScript(){
+    public String getVisualizationLibraryScript() {
         return visualizationLibraryScript();
     }
 
@@ -85,28 +88,29 @@ public abstract class VisualizationCodeGenerator {
         return output;
     }
 
+    public void setOutput(OpenLAPDataSet output) {
+        this.output = output;
+    }
+
     public String getOutputAsJsonString() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.writeValueAsString(this.output);
-        }catch (JsonProcessingException | NullPointerException exception){
+        } catch (JsonProcessingException | NullPointerException exception) {
             return "";
         }
     }
 
-    public String getInputAsJsonString(){
+    public String getInputAsJsonString() {
         if (input == null)
             initializeDataSetConfiguration();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.writeValueAsString(this.input);
-        }catch (JsonProcessingException exception){
+        } catch (JsonProcessingException exception) {
             return "";
         }
 
     }
 
-    public void setOutput(OpenLAPDataSet output) {
-        this.output = output;
-    }
 }
