@@ -27,9 +27,11 @@ public abstract class VisualizationCodeGenerator {
 
     protected abstract void initializeDataSetConfiguration();
 
-    protected abstract String visualizationCode(TransformedData<?> transformedData, Map<String, Object> additionalParams) throws VisualizationCodeGenerationException;
+    protected abstract String visualizationCode(DataTransformer dataTransformer, Map<String, Object> additionalParams) throws VisualizationCodeGenerationException;
 
     protected abstract String visualizationLibraryScript();
+
+    protected abstract Class getDataTransformer();
 
     public boolean isDataProcessable(OpenLAPPortConfig openlapPortConfig) throws DataSetValidationException {
         if (input == null)
@@ -42,7 +44,7 @@ public abstract class VisualizationCodeGenerator {
             throw new DataSetValidationException(validationResult.getValidationMessage());
     }
 
-    public String generateVisualizationCode(OpenLAPDataSet openLAPDataSet, OpenLAPPortConfig portConfig, DataTransformer dataTransformer, Map<String, Object> additionalParams) throws VisualizationCodeGenerationException, UnTransformableData, DataSetValidationException {
+    public String generateVisualizationCode(OpenLAPDataSet openLAPDataSet, OpenLAPPortConfig portConfig, Map<String, Object> additionalParams) throws VisualizationCodeGenerationException, UnTransformableData, DataSetValidationException, IllegalAccessException, InstantiationException {
         if (input == null)
             initializeDataSetConfiguration();
         // is the configuration valid?
@@ -52,11 +54,14 @@ public abstract class VisualizationCodeGenerator {
                 // map the data of the column c.id==element.id to the input
                 input.getColumns().get(mappingEntry.getInputPort().getId()).setData(openLAPDataSet.getColumns().get(mappingEntry.getOutputPort().getId()).getData());
             }
+
+            DataTransformer dataTransformer = (DataTransformer) getDataTransformer().newInstance();
+
             TransformedData<?> transformedData = dataTransformer.transformData(input);
             if (transformedData == null)
                 throw new UnTransformableData("Data could not be transformed.");
             else
-                return visualizationCode(transformedData, additionalParams);
+                return visualizationCode(dataTransformer, additionalParams);
         }else{
             return "Data could not be transformed.";
         }

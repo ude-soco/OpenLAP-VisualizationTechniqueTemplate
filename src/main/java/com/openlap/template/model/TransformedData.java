@@ -8,13 +8,13 @@ package com.openlap.template.model;
  */
 public class TransformedData<T> {
 
-    private T dataContent;
+    private T data;
 
-    public T getDataContent() {
-        return dataContent;
+    public T getData() {
+        return data;
     }
 
-    public void setDataContent(T dataContent) {
-        this.dataContent = dataContent;
+    public void setData(T data) {
+        this.data = data;
     }
 }
