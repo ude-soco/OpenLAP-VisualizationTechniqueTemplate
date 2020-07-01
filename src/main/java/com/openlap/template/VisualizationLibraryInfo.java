@@ -1,8 +1,8 @@
 package com.openlap.template;
 
 public abstract class VisualizationLibraryInfo {
-    protected abstract String getName();
-    protected abstract String getDescription();
-    protected abstract String getDeveloperName();
+    public abstract String getName();
+    public abstract String getDescription();
+    public abstract String getDeveloperName();
 }
 
