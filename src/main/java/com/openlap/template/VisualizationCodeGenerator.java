@@ -25,15 +25,15 @@ public abstract class VisualizationCodeGenerator {
     private OpenLAPDataSet input;
     private OpenLAPDataSet output;
 
-    protected abstract String getName();
+    public abstract String getName();
 
-    protected abstract void initializeDataSetConfiguration();
+    public abstract void initializeDataSetConfiguration();
 
-    protected abstract Class getDataTransformer();
+    public abstract Class getDataTransformer();
 
-    protected abstract String visualizationLibraryScript();
+    public abstract String visualizationLibraryScript();
 
-    protected abstract String visualizationCode(DataTransformer dataTransformer, Map<String, Object> additionalParams) throws VisualizationCodeGenerationException;
+    public abstract String visualizationCode(DataTransformer dataTransformer, Map<String, Object> additionalParams) throws VisualizationCodeGenerationException;
 
 
     public boolean isDataProcessable(OpenLAPPortConfig openlapPortConfig) throws DataSetValidationException {
